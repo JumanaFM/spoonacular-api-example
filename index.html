@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Spoonacular API</title>
+  </head>
+  <body>
+    <header>
+      <h1>Spoonacular API</h1>
+      <p>Docs: <a target="_blank" href="https://spoonacular.com/food-api/docs">https://spoonacular.com/food-api/docs</a></p>
+    </header>
+    <main>
+      <label>Search for:</label>
+      <input id="search-input" type="text" name="" value="burger">
+      <button id="search-button" type="button" name="button">Search</button>
+      <ul id="recipes">
+
+      </ul>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script type="text/javascript">
+      $( document ).ready(function() {
+          console.log( "ready!" );
+          $('#search-button').on('click', async function() {
+            $('#recipes').empty()
+            console.log('search for:')
+            let q = $('#search-input').val()
+            console.log(q)
+            let results = await axios.get(`https://api.spoonacular.com/recipes/search?apiKey=27d09276cb8e482e97f6ffe21be0ad43&query=${q}`)
+            let recipes = results.data.results
+            console.log(recipes)
+
+            for(let r in recipes) {
+              console.log(recipes[r].title)
+              let item = $('<li>').append(recipes[r].title)
+              $('#recipes').append(item)
+            }
+          })
+      });
+    </script>
+  </body>
+</html>
